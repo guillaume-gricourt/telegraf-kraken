@@ -4,15 +4,19 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"time"
 
+	"github.com/guillaume-gricourt/telegraf-kraken/plugins/inputs/kraken"
+	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/plugins/common/shim"
 )
 
+var pollInterval = flag.Duration("poll_interval", 1*time.Minute, "how often to send metrics")
+var pollIntervalDisabled = flag.Bool("poll_interval_disabled", false, "how often to send metrics")
 var configFile = flag.String("config", "", "path to the config file for this plugin")
 var usage = flag.Bool("usage", false, "print sample configuration")
 
 func printConfig(name string, p telegraf.PluginDescriber) {
-	fmt.Printf("# %s\n", p.Description())
 	fmt.Printf("[[inputs.%s]]", name)
 
 	config := p.SampleConfig()
@@ -27,21 +31,23 @@ func main() {
 	flag.Parse()
 
 	if *usage {
-		printConfig("openvpn", &cryptodl.CryptoDl{})
-
+		printConfig("cryptodl", &kraken.Kraken{})
 		os.Exit(0)
 	}
 
-	shim := shim.New()
+	if *pollIntervalDisabled {
+		*pollInterval = shim.PollIntervalDisabled
+	}
 
+	shim := shim.New()
 	err := shim.LoadConfig(configFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Err loading input: %v\n", err)
 		os.Exit(1)
 	}
 
-	if err := shim.Run(0); err != nil {
-		fmt.Fprintf(os.Stderr, "Err: %v\n", err)
+	if err := shim.Run(*pollInterval); err != nil {
+		fmt.Fprintf(os.Stderr, "Err: %s\n", err)
 		os.Exit(1)
 	}
 }

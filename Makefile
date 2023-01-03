@@ -1,3 +1,3 @@
 .PHONY: all
 all:
-	go build -o cryptodl cmd/main.go
+	go build -o kraken cmd/main.go

@@ -1,1 +1,8 @@
-# telegraf-execd-cryptodl
+# telegraf-kraken
+
+## Install
+
+```sh
+make
+```
+
