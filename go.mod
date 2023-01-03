@@ -1,4 +1,4 @@
-module github.com/guillaume-gricourt/telegraf-execd-cryptodl
+module github.com/guillaume-gricourt/telegraf-kraken
 
 go 1.19
 

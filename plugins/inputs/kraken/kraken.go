@@ -52,7 +52,7 @@ type Kraken struct {
 func NewKraken() *Kraken {
 	return &Kraken{
 		URL:     "https://api.kraken.com/0/public",
-		Pairs:   []string{"XRPUSDT", "ETHUSDC"},
+		Pairs:   []string{},
 		Method:  "GET",
 		Headers: map[string]string{"User-Agent": "telegraf-kraken"},
 		Timeout: config.Duration(time.Second * 5),
@@ -73,15 +73,18 @@ func (k *Kraken) Init() error {
 	if err != nil {
 		return err
 	}
+	if len(k.Pairs) < 1 {
+		return errors.New("Provide at least one asset to download")
+	}
 	return nil
 }
 
-func (*Kraken) createHTTPClient() (*http.Client, error) {
+func (k *Kraken) createHTTPClient() (*http.Client, error) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 		},
-		Timeout: time.Duration(cryptodl.Timeout),
+		Timeout: time.Duration(k.Timeout),
 	}
 	return client, nil
 }
@@ -114,14 +117,14 @@ func (k *Kraken) gatherJSONData(address string, parameters map[string]string, va
 func (k *Kraken) Gather(accumulator telegraf.Accumulator) error {
 	data := &Data{}
 	// url
-	tickerURL, err := url.Parse(cryptodl.URL + suffixTicker)
+	tickerURL, err := url.Parse(k.URL + suffixTicker)
 	if err != nil {
 		return err
 	}
 	// parameter
 	parameters := map[string]string{"pair": strings.Join(k.Pairs, ",")}
 	// request
-	err = cryptodl.gatherJSONData(tickerURL.String(), parameters, data)
+	err = k.gatherJSONData(tickerURL.String(), parameters, data)
 	if err != nil {
 		return err
 	}
@@ -130,7 +133,7 @@ func (k *Kraken) Gather(accumulator telegraf.Accumulator) error {
 	}
 	// aggregate
 	for pair := range data.Result {
-		var result map[string]interface{}
+		var record map[string]interface{}
 		jrec, _ := json.Marshal(data.Result[pair])
 		json.Unmarshal(jrec, &record)
 
@@ -146,6 +149,6 @@ func (k *Kraken) Gather(accumulator telegraf.Accumulator) error {
 
 func init() {
 	inputs.Add("kraken", func() telegraf.Input {
-		return NewKraken
+		return NewKraken()
 	})
 }
