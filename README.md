@@ -1,5 +1,8 @@
 # telegraf-kraken
 
+[![Github Version](https://img.shields.io/github/v/release/guillaume-gricourt/telegraf-kraken?display_name=tag&sort=semver)](version)  
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![GitHub Super-Linter](https://github.com/guillaume-gricourt/telegraf-kraken/workflows/Tests/badge.svg)](https://github.com/marketplace/actions/super-linter)  
+
 This plugin will pull ticker stats from [Kraken API](https://docs.kraken.com/rest/#section/General-Usage/Support).
 
 ## Configuration
