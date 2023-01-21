@@ -134,11 +134,16 @@ func (t *Ticker) Gather(accumulator telegraf.Accumulator) error {
 	// aggregate
 	for pair := range resp.Result {
 		var record map[string]interface{}
-		jrec, _ := json.Marshal(resp.Result[pair])
-		json.Unmarshal(jrec, &record)
-
+		jrec, err := json.Marshal(resp.Result[pair])
+		if err != nil {
+			return err
+		}
+		err = json.Unmarshal(jrec, &record)
+		if err != nil {
+			return err
+		}
 		flattener := jsonparser.JSONFlattener{}
-		err := flattener.FullFlattenJSON("", record, true, true)
+		err = flattener.FullFlattenJSON("", record, true, true)
 		if err != nil {
 			return err
 		}
