@@ -1,6 +1,6 @@
 # telegraf-kraken
 
-This plugin will pull ticker stats from Kraken.
+This plugin will pull ticker stats from (Kraken API)[https://docs.kraken.com/rest/#section/General-Usage/Support].
 
 ### Configuration
 
