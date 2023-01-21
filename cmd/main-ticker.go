@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	_ "github.com/guillaume-gricourt/telegraf-kraken/plugins/inputs/kraken"
+	_ "github.com/guillaume-gricourt/telegraf-kraken/plugins/inputs/ticker"
 
 	"github.com/influxdata/telegraf/plugins/common/shim"
 )

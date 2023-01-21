@@ -1,5 +1,5 @@
 //go:generate ../../../tools/readme_config_includer/generator
-package kraken
+package ticker
 
 import (
 	_ "embed"
@@ -19,9 +19,9 @@ import (
 //go:embed sample.conf
 var sampleConfig string
 
-const suffixTicker = "/Ticker"
+const suffixQuery = "/Ticker"
 
-type Ticker struct {
+type Data struct {
 	A []string `json:"a"`
 	B []string `json:"b"`
 	C []string `json:"c"`
@@ -33,12 +33,12 @@ type Ticker struct {
 	O string   `json:"o"`
 }
 
-type Data struct {
-	Result map[string]Ticker `json:"result"`
-	Error  []string          `json:"error"`
+type Response struct {
+	Result map[string]Data `json:"result"`
+	Error  []string        `json:"error"`
 }
 
-type Kraken struct {
+type Ticker struct {
 	URL      string            `toml:"url"`
 	Pairs    []string          `toml:"pairs"`
 	Includes []string          `toml:"include"`
@@ -49,8 +49,8 @@ type Kraken struct {
 	client *http.Client
 }
 
-func NewKraken() *Kraken {
-	return &Kraken{
+func NewTicker() *Ticker {
+	return &Ticker{
 		URL:     "https://api.kraken.com/0/public",
 		Pairs:   []string{},
 		Method:  "GET",
@@ -59,44 +59,44 @@ func NewKraken() *Kraken {
 	}
 }
 
-func (*Kraken) SampleConfig() string {
+func (*Ticker) SampleConfig() string {
 	return sampleConfig
 }
 
-func (*Kraken) Description() string {
-	return "Example go-plugin for Telegraf"
+func (*Ticker) Description() string {
+	return "Request for Kraken - Ticker"
 }
 
-func (k *Kraken) Init() error {
+func (t *Ticker) Init() error {
 	var err error
-	k.client, err = k.createHTTPClient()
+	t.client, err = t.createHTTPClient()
 	if err != nil {
 		return err
 	}
-	if len(k.Pairs) < 1 {
+	if len(t.Pairs) < 1 {
 		return errors.New("Provide at least one asset to download")
 	}
 	return nil
 }
 
-func (k *Kraken) createHTTPClient() (*http.Client, error) {
+func (t *Ticker) createHTTPClient() (*http.Client, error) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 		},
-		Timeout: time.Duration(k.Timeout),
+		Timeout: time.Duration(t.Timeout),
 	}
 	return client, nil
 }
 
 // gatherJSONData query the data source and parse the response JSON
-func (k *Kraken) gatherJSONData(address string, parameters map[string]string, value interface{}) error {
-	request, err := http.NewRequest(k.Method, address, nil)
+func (t *Ticker) gatherJSONData(address string, parameters map[string]string, value interface{}) error {
+	request, err := http.NewRequest(t.Method, address, nil)
 	if err != nil {
 		return err
 	}
 	// headers
-	for key, values := range k.Headers {
+	for key, values := range t.Headers {
 		request.Header.Add(key, values)
 	}
 	// parameters
@@ -106,7 +106,7 @@ func (k *Kraken) gatherJSONData(address string, parameters map[string]string, va
 	}
 	request.URL.RawQuery = query.Encode()
 	// request
-	response, err := k.client.Do(request)
+	response, err := t.client.Do(request)
 	if err != nil {
 		return err
 	}
@@ -114,27 +114,27 @@ func (k *Kraken) gatherJSONData(address string, parameters map[string]string, va
 	return json.NewDecoder(response.Body).Decode(value)
 }
 
-func (k *Kraken) Gather(accumulator telegraf.Accumulator) error {
-	data := &Data{}
+func (t *Ticker) Gather(accumulator telegraf.Accumulator) error {
+	resp := &Response{}
 	// url
-	tickerURL, err := url.Parse(k.URL + suffixTicker)
+	tickerURL, err := url.Parse(t.URL + suffixQuery)
 	if err != nil {
 		return err
 	}
 	// parameter
-	parameters := map[string]string{"pair": strings.Join(k.Pairs, ",")}
+	parameters := map[string]string{"pair": strings.Join(t.Pairs, ",")}
 	// request
-	err = k.gatherJSONData(tickerURL.String(), parameters, data)
+	err = t.gatherJSONData(tickerURL.String(), parameters, resp)
 	if err != nil {
 		return err
 	}
-	if len(data.Error) > 0 {
-		return errors.New(strings.Join(data.Error, ","))
+	if len(resp.Error) > 0 {
+		return errors.New(strings.Join(resp.Error, ","))
 	}
 	// aggregate
-	for pair := range data.Result {
+	for pair := range resp.Result {
 		var record map[string]interface{}
-		jrec, _ := json.Marshal(data.Result[pair])
+		jrec, _ := json.Marshal(resp.Result[pair])
 		json.Unmarshal(jrec, &record)
 
 		flattener := jsonparser.JSONFlattener{}
@@ -148,7 +148,7 @@ func (k *Kraken) Gather(accumulator telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("kraken", func() telegraf.Input {
-		return NewKraken()
+	inputs.Add("ticker", func() telegraf.Input {
+		return NewTicker()
 	})
 }
