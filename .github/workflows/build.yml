@@ -135,7 +135,7 @@ jobs:
         run: make all
       - name: 'Create asset'
         run: |
-          zip -j ${asset} bin/*
+          zip -j "${asset}" bin/*
       - name: 'Upload Artifact Package'
         uses: actions/upload-artifact@v3
         with:
