@@ -115,8 +115,36 @@ jobs:
           custom_tag: ${{ needs.TagRaw.outputs.tag }}
           tag_prefix:
 
+  BuildBin:
+    needs: Commit
+    runs-on: ubuntu-latest
+    env:
+      asset: bin.zip
+    outputs:
+      asset: ${{ env.asset }}
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          ref: stable
+      - name: 'Set up Go'
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19
+      - name: 'Build'
+        run: make all
+      - name: 'Create asset'
+        run: |
+          zip -j ${asset} bin/*
+      - name: 'Upload Artifact Package'
+        uses: actions/upload-artifact@v3
+        with:
+          name: package-bin-artifact
+          path: ${{ env.asset }}
+          if-no-files-found: error
+
   Release:
-    needs: [TagRaw, Commit]
+    needs: [TagRaw, Commit, BuildBin]
     runs-on: ubuntu-latest
     steps:
       - name: 'Create Release'
@@ -124,3 +152,4 @@ jobs:
         with:
           tag_name: ${{ needs.TagRaw.outputs.tag }}
           body: ${{ needs.TagRaw.outputs.changelog }}
+          files: ${{ needs.BuildBin.outputs.asset }}
