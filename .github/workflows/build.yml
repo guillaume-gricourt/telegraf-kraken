@@ -74,7 +74,7 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       - name: 'Download Artifact Changelog'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: changelog-artifact
       # Commit
