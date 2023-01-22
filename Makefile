@@ -1,4 +1,5 @@
 .PHONY: all
+all: ticker
 ticker:
 	go build -o bin/telegraf-kraken-ticker cmd/main-ticker.go
 
