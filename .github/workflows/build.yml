@@ -147,6 +147,10 @@ jobs:
     needs: [TagRaw, Commit, BuildBin]
     runs-on: ubuntu-latest
     steps:
+      - name: 'Download Artifact Package'
+        uses: actions/download-artifact@v3
+        with:
+          name: package-bin-artifact
       - name: 'Create Release'
         uses: softprops/action-gh-release@v1
         with:
