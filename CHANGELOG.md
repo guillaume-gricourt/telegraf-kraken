@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.1](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.8.1) (2023-01-22)
+
+[Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.0...0.8.1)
+
+**Merged pull requests:**
+
+- chore\(deps\): bump actions/upload-artifact from 2 to 3 [\#5](https://github.com/guillaume-gricourt/telegraf-kraken/pull/5) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/setup-go from 2 to 3 [\#4](https://github.com/guillaume-gricourt/telegraf-kraken/pull/4) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump mathieudutour/github-tag-action from 6.0 to 6.1 [\#3](https://github.com/guillaume-gricourt/telegraf-kraken/pull/3) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/download-artifact from 2 to 3 [\#2](https://github.com/guillaume-gricourt/telegraf-kraken/pull/2) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump github.com/containerd/containerd from 1.6.8 to 1.6.12 [\#1](https://github.com/guillaume-gricourt/telegraf-kraken/pull/1) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [0.8.0](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.8.0) (2023-01-21)
 
 [Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/f4b383b8336a6ecf8e2758e1bed57d4e83ddd228...0.8.0)
