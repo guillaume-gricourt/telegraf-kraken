@@ -3,7 +3,7 @@ module github.com/guillaume-gricourt/telegraf-kraken
 go 1.19
 
 require (
-	github.com/influxdata/telegraf v1.25.0
+	github.com/influxdata/telegraf v1.21.3
 	github.com/stretchr/testify v1.8.1
 )
 
@@ -49,9 +49,10 @@ require (
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/naoina/go-stringutil v0.1.0 // indirect
 	github.com/nats-io/gnatsd v1.4.1 // indirect
+	github.com/nats-io/jwt v1.2.2 // indirect
 	github.com/nats-io/jwt/v2 v2.3.0 // indirect
 	github.com/nats-io/nats-server v1.4.1 // indirect
-	github.com/nats-io/nats-server/v2 v2.9.11 // indirect
+	github.com/nats-io/nats-server/v2 v2.6.6 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
