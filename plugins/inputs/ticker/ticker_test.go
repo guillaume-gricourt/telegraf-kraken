@@ -12,15 +12,15 @@ func TestGathering(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping network-dependent test in short mode.")
 	}
-	var tickerConfig = NewTicker()
-	tickerConfig.Pairs = []string{"XRPUSDT"}
+	var ticker = NewTicker()
+	ticker.Pairs = []string{"XRPUSDT"}
 
 	var err error
-	tickerConfig.client, err = tickerConfig.createHTTPClient()
+	err = ticker.Init()
 	assert.NoError(t, err)
 
 	var acc testutil.Accumulator
-	err = acc.GatherError(tickerConfig.Gather)
+	err = acc.GatherError(ticker.Gather)
 	assert.NoError(t, err)
 	metric, ok := acc.Get("ticker")
 	require.True(t, ok)
