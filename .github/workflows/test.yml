@@ -1,10 +1,6 @@
 name: Tests
 
-on:
-  push:
-    branches:
-      - main
-      - stable
+on: push, pull_request
 
 jobs:
 
