@@ -7,6 +7,8 @@ This plugin will pull ticker stats from [Kraken API](https://docs.kraken.com/res
 
 ## Configuration
 
+### Ticker
+
 The minimal configuration expects the `pairs` to be set.
 
 ```toml
@@ -26,10 +28,12 @@ The minimal configuration expects the `pairs` to be set.
 git clone git@github.com:guillaume-gricourt/telegraf-kraken.git
 ```
 
-* Build the "bin/telegraf-kraken-ticker-<label>" binary
+* Build the `bin/telegraf-kraken-<label>` binary
 
 The `label` refers to the endpoint of the API.
-The labels available are: `ticker`
+The labels available are:
+* `ticker`: Get Ticker Information
+* `depth`: Get Order Book
 
 ```sh
 make <label>
