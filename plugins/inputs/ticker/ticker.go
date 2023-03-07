@@ -13,7 +13,7 @@ import (
 	jsonparser "github.com/influxdata/telegraf/plugins/parsers/json"
 )
 
-//go:embed sample.conf
+//go:embed ticker.conf
 var sampleConfig string
 
 const urlSuffix = "/public/Ticker"
