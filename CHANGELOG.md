@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.8.4](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.8.4) (2023-01-30)
+
+[Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.3...0.8.4)
+
 ## [0.8.3](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.8.3) (2023-01-28)
 
 [Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.2...0.8.3)
