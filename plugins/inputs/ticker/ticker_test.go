@@ -8,10 +8,19 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+type Data struct {
+	A []string `json:"a"`
+	B []string `json:"b"`
+	C []string `json:"c"`
+	V []string `json:"v"`
+	P []string `json:"p"`
+	T []int    `json:"t"`
+	L []string `json:"l"`
+	H []string `json:"h"`
+	O string   `json:"o"`
+}
+
 func TestGathering(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Skipping network-dependent test in short mode.")
-	}
 	var ticker = NewTicker()
 	ticker.Pairs = []string{"XRPUSDT"}
 
@@ -19,6 +28,9 @@ func TestGathering(t *testing.T) {
 	err = ticker.Init()
 	assert.NoError(t, err)
 
+	if testing.Short() {
+		t.Skip("Skipping network-dependent test in short mode.")
+	}
 	var acc testutil.Accumulator
 	err = acc.GatherError(ticker.Gather)
 	assert.NoError(t, err)

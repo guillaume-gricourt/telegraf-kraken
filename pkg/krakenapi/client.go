@@ -5,17 +5,16 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 )
 
-// Values
 const UrlBase = "https://api.kraken.com/0/"
 
 var Headers = map[string]string{"User-Agent": "telegraf-kraken"}
 
 var ErrUnauthorized = errors.New("Missing or invalid API key")
 
-// A Client manages communication with the OctoPrint API.
 type Client struct {
 	Method    string
 	UrlSuffix string
@@ -24,10 +23,11 @@ type Client struct {
 	c *http.Client
 }
 
-// NewClient returns a new OctoPrint API client with provided base URL and API
-// Key. If baseURL does not have a trailing slash, one is added automatically. If
-// `Access Control` is enabled at OctoPrint configuration an apiKey should be
-// provided (http://docs.octoprint.org/en/master/api/general.html#authorization).
+type Response struct {
+	Result map[string]interface{} `json:"result"`
+	Error  []string               `json:"error"`
+}
+
 func NewClient(method string, urlSuffix string, apiKey string, timeOut time.Duration) *Client {
 	return &Client{
 		Method:    method,
@@ -42,11 +42,10 @@ func NewClient(method string, urlSuffix string, apiKey string, timeOut time.Dura
 	}
 }
 
-// gatherJSONData query the data source and parse the response JSON
-func (c *Client) Request(headers map[string]string, parameters map[string]string, value interface{}) error {
+func (c *Client) Request(headers map[string]string, parameters map[string]string) (map[string]interface{}, error) {
 	req, err := http.NewRequest(c.Method, joinUrl(UrlBase, c.UrlSuffix), nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// headers
 	if headers != nil {
@@ -68,10 +67,16 @@ func (c *Client) Request(headers map[string]string, parameters map[string]string
 	// request
 	resp, err := c.c.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
-	return json.NewDecoder(resp.Body).Decode(value)
+	// parsing data
+	result := &Response{}
+	err = json.NewDecoder(resp.Body).Decode(result)
+	if len(result.Error) > 0 {
+		return nil, errors.New(strings.Join(result.Error, ","))
+	}
+	return result.Result, err
 }
 
 func joinUrl(base string, ext string) string {

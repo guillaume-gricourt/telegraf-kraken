@@ -3,7 +3,6 @@ package ticker
 
 import (
 	_ "embed"
-	"encoding/json"
 	"errors"
 	"strings"
 	"time"
@@ -14,28 +13,11 @@ import (
 	jsonparser "github.com/influxdata/telegraf/plugins/parsers/json"
 )
 
-//go:embed ticker.conf
+//go:embed sample.conf
 var sampleConfig string
 
 const urlSuffix = "/public/Ticker"
 const method = "GET"
-
-type Data struct {
-	A []string `json:"a"`
-	B []string `json:"b"`
-	C []string `json:"c"`
-	V []string `json:"v"`
-	P []string `json:"p"`
-	T []int    `json:"t"`
-	L []string `json:"l"`
-	H []string `json:"h"`
-	O string   `json:"o"`
-}
-
-type Response struct {
-	Result map[string]Data `json:"result"`
-	Error  []string        `json:"error"`
-}
 
 type Ticker struct {
 	Pairs   []string      `toml:"pairs"`
@@ -69,30 +51,17 @@ func (t *Ticker) Init() error {
 
 func (t *Ticker) Gather(accumulator telegraf.Accumulator) error {
 	var err error
-	resp := &Response{}
 	// parameter
 	parameters := map[string]string{"pair": strings.Join(t.Pairs, ",")}
 	// request
-	err = t.client.Request(nil, parameters, resp)
+	resp, err := t.client.Request(nil, parameters)
 	if err != nil {
 		return err
 	}
-	if len(resp.Error) > 0 {
-		return errors.New(strings.Join(resp.Error, ","))
-	}
 	// aggregate
-	for pair := range resp.Result {
-		var record map[string]interface{}
-		jrec, err := json.Marshal(resp.Result[pair])
-		if err != nil {
-			return err
-		}
-		err = json.Unmarshal(jrec, &record)
-		if err != nil {
-			return err
-		}
-		flattener := jsonparser.JSONFlattener{}
-		err = flattener.FullFlattenJSON("", record, true, true)
+	flattener := jsonparser.JSONFlattener{}
+	for pair := range resp {
+		err = flattener.FullFlattenJSON("", resp[pair], true, true)
 		if err != nil {
 			return err
 		}
