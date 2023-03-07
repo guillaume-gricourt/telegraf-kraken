@@ -3,59 +3,33 @@ package ticker
 
 import (
 	_ "embed"
-	"encoding/json"
 	"errors"
-	"net/http"
-	"net/url"
 	"strings"
 	"time"
 
+	"github.com/guillaume-gricourt/telegraf-kraken/pkg/krakenapi"
 	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/config"
 	"github.com/influxdata/telegraf/plugins/inputs"
 	jsonparser "github.com/influxdata/telegraf/plugins/parsers/json"
 )
 
-//go:embed sample.conf
+//go:embed ticker.conf
 var sampleConfig string
 
-const suffixQuery = "/Ticker"
-
-type Data struct {
-	A []string `json:"a"`
-	B []string `json:"b"`
-	C []string `json:"c"`
-	V []string `json:"v"`
-	P []string `json:"p"`
-	T []int    `json:"t"`
-	L []string `json:"l"`
-	H []string `json:"h"`
-	O string   `json:"o"`
-}
-
-type Response struct {
-	Result map[string]Data `json:"result"`
-	Error  []string        `json:"error"`
-}
+const urlSuffix = "/public/Ticker"
+const method = "GET"
 
 type Ticker struct {
-	URL      string            `toml:"url"`
-	Pairs    []string          `toml:"pairs"`
-	Includes []string          `toml:"include"`
-	Method   string            `toml:"method"`
-	Headers  map[string]string `toml:"headers"`
-	Timeout  config.Duration   `toml:"timeout"`
+	Pairs   []string      `toml:"pairs"`
+	Timeout time.Duration `toml:"timeout"`
 
-	client *http.Client
+	client *krakenapi.Client
 }
 
 func NewTicker() *Ticker {
 	return &Ticker{
-		URL:     "https://api.kraken.com/0/public",
 		Pairs:   []string{},
-		Method:  "GET",
-		Headers: map[string]string{"User-Agent": "telegraf-kraken"},
-		Timeout: config.Duration(time.Second * 5),
+		Timeout: time.Second * 5,
 	}
 }
 
@@ -64,86 +38,30 @@ func (*Ticker) SampleConfig() string {
 }
 
 func (*Ticker) Description() string {
-	return "Request for Kraken - Ticker"
+	return "telegraf-kraken: ticker"
 }
 
 func (t *Ticker) Init() error {
-	var err error
-	t.client, err = t.createHTTPClient()
-	if err != nil {
-		return err
-	}
+	t.client = krakenapi.NewClient(method, urlSuffix, "", t.Timeout)
 	if len(t.Pairs) < 1 {
 		return errors.New("Provide at least one asset to download")
 	}
 	return nil
 }
 
-func (t *Ticker) createHTTPClient() (*http.Client, error) {
-	client := &http.Client{
-		Transport: &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
-		},
-		Timeout: time.Duration(t.Timeout),
-	}
-	return client, nil
-}
-
-// gatherJSONData query the data source and parse the response JSON
-func (t *Ticker) gatherJSONData(address string, parameters map[string]string, value interface{}) error {
-	request, err := http.NewRequest(t.Method, address, nil)
-	if err != nil {
-		return err
-	}
-	// headers
-	for key, values := range t.Headers {
-		request.Header.Add(key, values)
-	}
-	// parameters
-	query := request.URL.Query()
-	for label, parameter := range parameters {
-		query.Add(label, parameter)
-	}
-	request.URL.RawQuery = query.Encode()
-	// request
-	response, err := t.client.Do(request)
-	if err != nil {
-		return err
-	}
-	defer response.Body.Close()
-	return json.NewDecoder(response.Body).Decode(value)
-}
-
 func (t *Ticker) Gather(accumulator telegraf.Accumulator) error {
-	resp := &Response{}
-	// url
-	tickerURL, err := url.Parse(t.URL + suffixQuery)
-	if err != nil {
-		return err
-	}
+	var err error
 	// parameter
 	parameters := map[string]string{"pair": strings.Join(t.Pairs, ",")}
 	// request
-	err = t.gatherJSONData(tickerURL.String(), parameters, resp)
+	resp, err := t.client.Request(nil, parameters)
 	if err != nil {
 		return err
 	}
-	if len(resp.Error) > 0 {
-		return errors.New(strings.Join(resp.Error, ","))
-	}
 	// aggregate
-	for pair := range resp.Result {
-		var record map[string]interface{}
-		jrec, err := json.Marshal(resp.Result[pair])
-		if err != nil {
-			return err
-		}
-		err = json.Unmarshal(jrec, &record)
-		if err != nil {
-			return err
-		}
-		flattener := jsonparser.JSONFlattener{}
-		err = flattener.FullFlattenJSON("", record, true, true)
+	flattener := jsonparser.JSONFlattener{}
+	for pair := range resp {
+		err = flattener.FullFlattenJSON("", resp[pair], true, true)
 		if err != nil {
 			return err
 		}

@@ -11,17 +11,8 @@ The minimal configuration expects the `pairs` to be set.
 
 ```toml
 [[inputs.ticker]]
-  ## Default is "https://api.kraken.com/0/public".
-  # url = "https://api.kraken.com/0/public"
-
-  ## Pairs to grab
+  ## Pairs to grab - Required
   pairs = [""]
-
-  ## HTTP method
-  # method = "GET"
-
-  ## Optional HTTP headers
-  # headers = {"X-Special-Header" = "Special-Value"}
 
   ## Timeout for HTTP requests
   # timeout = "5s"
