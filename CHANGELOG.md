@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.8.5](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.8.5) (2023-03-07)
+
+[Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.4...0.8.5)
+
+**Merged pull requests:**
+
+- Factorize client [\#15](https://github.com/guillaume-gricourt/telegraf-kraken/pull/15) ([guillaume-gricourt](https://github.com/guillaume-gricourt))
+- chore\(deps\): bump github.com/influxdata/telegraf from 1.25.2 to 1.25.3 [\#14](https://github.com/guillaume-gricourt/telegraf-kraken/pull/14) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump github.com/stretchr/testify from 1.8.1 to 1.8.2 [\#13](https://github.com/guillaume-gricourt/telegraf-kraken/pull/13) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/checkout from 2 to 3 [\#12](https://github.com/guillaume-gricourt/telegraf-kraken/pull/12) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump github.com/influxdata/telegraf from 1.25.1 to 1.25.2 [\#11](https://github.com/guillaume-gricourt/telegraf-kraken/pull/11) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump golang.org/x/net from 0.5.0 to 0.7.0 [\#10](https://github.com/guillaume-gricourt/telegraf-kraken/pull/10) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump github.com/containerd/containerd from 1.6.12 to 1.6.18 [\#9](https://github.com/guillaume-gricourt/telegraf-kraken/pull/9) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump github.com/containerd/containerd from 1.6.8 to 1.6.12 [\#8](https://github.com/guillaume-gricourt/telegraf-kraken/pull/8) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump github.com/influxdata/telegraf from 1.21.3 to 1.25.1 [\#7](https://github.com/guillaume-gricourt/telegraf-kraken/pull/7) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump github.com/nats-io/nats-server/v2 from 2.6.6 to 2.7.4 [\#6](https://github.com/guillaume-gricourt/telegraf-kraken/pull/6) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [0.8.4](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.8.4) (2023-01-30)
 
 [Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.3...0.8.4)
