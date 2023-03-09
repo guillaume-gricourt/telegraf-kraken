@@ -34,6 +34,7 @@ The `label` refers to the endpoint of the API.
 The labels available are:
 * `ticker`: Get Ticker Information
 * `depth`: Get Order Book
+* `spread`: Get Recent Spreads, only last one is kept
 
 ```sh
 make <label>
