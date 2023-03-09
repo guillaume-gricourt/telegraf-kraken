@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.9.0) (2023-03-07)
+
+[Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.5...0.9.0)
+
+**Merged pull requests:**
+
+- Feat order book [\#16](https://github.com/guillaume-gricourt/telegraf-kraken/pull/16) ([guillaume-gricourt](https://github.com/guillaume-gricourt))
+
 ## [0.8.5](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.8.5) (2023-03-07)
 
 [Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.4...0.8.5)
