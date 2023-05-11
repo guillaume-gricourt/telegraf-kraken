@@ -15,7 +15,7 @@ jobs:
           ref: ${{ github.ref }}
           fetch-depth: 0
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter@v5
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: ${{ github.ref }}
@@ -27,7 +27,7 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v3
       - name: 'Set up Go'
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: 1.19
       - name: 'Build'
