@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.10.0) (2023-03-09)
+
+[Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.9.0...0.10.0)
+
+**Merged pull requests:**
+
+- feat\(telegraf-kraken\): add `spread` feature [\#17](https://github.com/guillaume-gricourt/telegraf-kraken/pull/17) ([guillaume-gricourt](https://github.com/guillaume-gricourt))
+
 ## [0.9.0](https://github.com/guillaume-gricourt/telegraf-kraken/tree/0.9.0) (2023-03-07)
 
 [Full Changelog](https://github.com/guillaume-gricourt/telegraf-kraken/compare/0.8.5...0.9.0)
