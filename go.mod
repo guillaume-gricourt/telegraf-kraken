@@ -3,7 +3,7 @@ module github.com/guillaume-gricourt/telegraf-kraken
 go 1.19
 
 require (
-	github.com/influxdata/telegraf v1.27.2
+	github.com/influxdata/telegraf v1.27.3
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -19,11 +19,12 @@ require (
 	github.com/benbjohnson/clock v1.3.3 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/compose-spec/compose-go v1.16.0 // indirect
-	github.com/containerd/containerd v1.6.18 // indirect
+	github.com/containerd/containerd v1.6.19 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
+	github.com/cpuguy83/dockercfg v0.3.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docker/distribution v2.8.2+incompatible // indirect
-	github.com/docker/docker v23.0.4+incompatible // indirect
+	github.com/docker/docker v23.0.5+incompatible // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/fatih/color v1.15.0 // indirect
@@ -34,8 +35,9 @@ require (
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gosnmp/gosnmp v1.35.1-0.20230602062452-f30602b8dad6 // indirect
+	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/influxdata/toml v0.0.0-20190415235208-270119a8ce65 // indirect
-	github.com/klauspost/compress v1.16.6 // indirect
+	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
@@ -43,7 +45,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/moby/patternmatcher v0.5.0 // indirect
 	github.com/moby/sys/sequential v0.5.0 // indirect
-	github.com/moby/term v0.0.0-20221128092401-c43b287e0e0f // indirect
+	github.com/moby/term v0.5.0 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/naoina/go-stringutil v0.1.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
@@ -56,7 +58,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sleepinggenius2/gosmi v0.4.4 // indirect
 	github.com/stoewer/go-strcase v1.2.0 // indirect
-	github.com/testcontainers/testcontainers-go v0.18.0 // indirect
+	github.com/testcontainers/testcontainers-go v0.21.0 // indirect
 	github.com/tidwall/gjson v1.14.4 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
