@@ -3,7 +3,7 @@ module github.com/guillaume-gricourt/telegraf-kraken
 go 1.21
 
 require (
-	github.com/influxdata/telegraf v1.29.0
+	github.com/influxdata/telegraf v1.29.1
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -41,7 +41,7 @@ require (
 	github.com/google/uuid v1.4.0 // indirect
 	github.com/gosnmp/gosnmp v1.36.1 // indirect
 	github.com/influxdata/toml v0.0.0-20190415235208-270119a8ce65 // indirect
-	github.com/klauspost/compress v1.17.3 // indirect
+	github.com/klauspost/compress v1.17.4 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20230110061619-bbe2e5e100de // indirect
