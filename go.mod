@@ -6,7 +6,7 @@ toolchain go1.22.0
 
 require (
 	github.com/influxdata/telegraf v1.29.5
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
